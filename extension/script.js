@@ -1,4 +1,5 @@
 const DAY_MS = 24 * 60 * 60 * 1000;
+const MAX_SHOWN = 3;
 const SAVE_URL = "http://localhost:47811/goals";
 const REPO_URL = "https://github.com/rsktaker/advertise-to-yourself";
 
@@ -24,6 +25,7 @@ function renderGoals() {
     .map((g) => ({ ...g, days: daysUntil(g.date) }))
     .filter((g) => g.days >= 0 && daysUntil(g.from) <= 0)
     .sort((a, b) => a.days - b.days)
+    .slice(0, MAX_SHOWN)
     .forEach((g, i) => {
       const li = document.createElement("li");
       if (i === 0) li.className = "near";

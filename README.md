@@ -25,7 +25,7 @@ This project uses that slot to advertise your own goals to yourself. Every tab y
 17 days   Portfolio site live
 ```
 
-- One line per goal: days left, then the goal.
+- One line per goal: days left, then the goal. At most 3 show at once, nearest deadline first.
 - Each goal has a **shows from** date and a **due** date. It appears on the first and disappears the day after the second. Only what's relevant right now is on screen.
 - The next goal due is slightly brighter. That's the only emphasis.
 - Follows the system light/dark setting.
