@@ -24,9 +24,9 @@ function renderGoals() {
     .map((g) => ({ ...g, days: daysUntil(g.date) }))
     .filter((g) => g.days >= 0 && daysUntil(g.from) <= 0)
     .sort((a, b) => a.days - b.days)
-    .forEach((g) => {
+    .forEach((g, i) => {
       const li = document.createElement("li");
-      if (g.days <= 2) li.className = "near";
+      if (i === 0) li.className = "near";
 
       const days = document.createElement("span");
       days.className = "days";

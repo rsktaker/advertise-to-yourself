@@ -27,7 +27,7 @@ This project uses that slot to advertise your own goals to yourself. Every tab y
 
 - One line per goal: days left, then the goal.
 - Each goal has a **shows from** date and a **due** date. It appears on the first and disappears the day after the second. Only what's relevant right now is on screen.
-- Goals due within 2 days are slightly brighter. That's the only emphasis.
+- The next goal due is slightly brighter. That's the only emphasis.
 - Follows the system light/dark setting.
 - Hover the bottom-right corner for **edit**.
 
