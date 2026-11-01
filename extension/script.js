@@ -6,6 +6,14 @@ const REPO_URL = "https://github.com/rsktaker/advertise-to-yourself";
 // Served over http(s) means the hosted demo: edits stay in memory.
 const DEMO = location.protocol === "http:" || location.protocol === "https:";
 
+// STORE (set in mode.js) is true in the Chrome Web Store build: goals live in
+// chrome.storage.sync. Otherwise they come from goals.js and save through Hammerspoon.
+async function loadStoredGoals() {
+  if (!STORE) return;
+  const { goals } = await chrome.storage.sync.get("goals");
+  GOALS.splice(0, GOALS.length, ...(goals || []));
+}
+
 function daysUntil(isoDate) {
   const [y, m, d] = isoDate.split("-").map(Number);
   const now = new Date();
@@ -37,6 +45,8 @@ function renderGoals() {
       li.append(days, g.title);
       list.append(li);
     });
+
+  document.getElementById("start").hidden = GOALS.length > 0;
 }
 
 function addRow(goal) {
@@ -57,7 +67,9 @@ function addRow(goal) {
 function openEditor() {
   document.getElementById("rows").replaceChildren();
   GOALS.forEach(addRow);
+  if (GOALS.length === 0) addRow({ title: "", from: todayIso(), date: "" }).focus();
   document.getElementById("status").textContent = "";
+  document.getElementById("start").hidden = true;
   document.getElementById("goals").hidden = true;
   document.getElementById("edit").hidden = true;
   document.getElementById("editor").hidden = false;
@@ -67,6 +79,7 @@ function closeEditor() {
   document.getElementById("editor").hidden = true;
   document.getElementById("goals").hidden = false;
   document.getElementById("edit").hidden = false;
+  document.getElementById("start").hidden = GOALS.length > 0;
 }
 
 async function save() {
@@ -84,7 +97,8 @@ async function save() {
     return;
   }
 
-  if (DEMO) {
+  if (DEMO || STORE) {
+    if (STORE) await chrome.storage.sync.set({ goals });
     GOALS.splice(0, GOALS.length, ...goals);
     renderGoals();
     closeEditor();
@@ -100,11 +114,12 @@ async function save() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   if (typeof chrome !== "undefined" && chrome.extension && chrome.extension.inIncognitoContext) {
     document.body.style.background = "#3c3c3c";
   }
 
+  await loadStoredGoals();
   renderGoals();
 
   if (DEMO) {
@@ -113,6 +128,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("edit").addEventListener("click", openEditor);
+  document.getElementById("start").addEventListener("click", openEditor);
   document.getElementById("cancel").addEventListener("click", closeEditor);
   document.getElementById("save").addEventListener("click", save);
   document.getElementById("add").addEventListener("click", () => {

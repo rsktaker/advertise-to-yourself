@@ -81,6 +81,8 @@ If a change doesn't show up in Chrome, reload the extension at `chrome://extensi
 | `extension/newtab.html`, `script.js`, `style.css` | The page and the editor. Plain HTML/JS, no build step, no dependencies |
 | `extension/goals.js` | Your goals. The only file that changes |
 | `hammerspoon/advertise-to-yourself.lua` | Cmd+T in Arc, plus the save server |
+| `build.sh` | Builds the Chrome Web Store zip. In that build, goals live in `chrome.storage.sync` instead of `goals.js`, so it needs no Hammerspoon |
+| `store/` | Web Store listing text, screenshots and promo tile |
 
 The save server listens only on `localhost:47811`. It accepts requests only from the extension page and the `file://` page, so ordinary websites are rejected. It checks every goal (non-empty title, `YYYY-MM-DD` dates) and writes them as JSON-encoded data, so nothing else can be injected into `goals.js`.
 
