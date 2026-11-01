@@ -1,0 +1,123 @@
+:root {
+  --bg: #ffffff;
+  --text: #9a9a9a;
+  --near: #5f5f5f;
+  --field: #f2f2f2;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #3c3c3c;
+    --text: #8a8a8a;
+    --near: #c4c4c4;
+    --field: #464646;
+    color-scheme: dark;
+  }
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 13px/1.7 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  color: var(--text);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#goals {
+  font-size: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#goals .near {
+  color: var(--near);
+}
+
+#goals .days {
+  display: inline-block;
+  min-width: 4.5em;
+  font-variant-numeric: tabular-nums;
+}
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: none;
+  border: none;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  color: var(--near);
+}
+
+#edit {
+  position: fixed;
+  right: 16px;
+  bottom: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#edit:hover {
+  opacity: 1;
+}
+
+#editor {
+  font-size: 15px;
+}
+
+#editor .head,
+#editor .row {
+  display: grid;
+  grid-template-columns: 22em 9.5em 9.5em 2em;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+#editor input {
+  font: inherit;
+  color: var(--near);
+  background: var(--field);
+  border: none;
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+#editor .actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+#editor #status {
+  flex: 1;
+  align-self: center;
+}
+
+#about {
+  position: fixed;
+  left: 16px;
+  bottom: 14px;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+#about:hover {
+  color: var(--near);
+}
