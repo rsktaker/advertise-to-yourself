@@ -26,6 +26,11 @@ function todayIso() {
   return [now.getFullYear(), now.getMonth() + 1, now.getDate()].map((n) => String(n).padStart(2, "0")).join("-");
 }
 
+// Same order as the page: nearest due date first.
+function byDue(a, b) {
+  return a.date.localeCompare(b.date) || a.from.localeCompare(b.from);
+}
+
 function renderGoals() {
   const list = document.getElementById("goals");
   list.replaceChildren();
@@ -66,7 +71,7 @@ function addRow(goal) {
 
 function openEditor() {
   document.getElementById("rows").replaceChildren();
-  GOALS.forEach(addRow);
+  [...GOALS].sort(byDue).forEach(addRow);
   if (GOALS.length === 0) addRow({ title: "", from: todayIso(), date: "" }).focus();
   document.getElementById("status").textContent = "";
   document.getElementById("start").hidden = true;
@@ -90,7 +95,8 @@ async function save() {
       from: row.querySelector(".from").value || todayIso(),
       date: row.querySelector(".date").value,
     }))
-    .filter((g) => g.title);
+    .filter((g) => g.title)
+    .sort(byDue);
 
   if (goals.some((g) => !g.date)) {
     status.textContent = "every goal needs a due date";
